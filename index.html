@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Automated Payroll Verification and Employee Access Control</title>
+<style>
+:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);--bg:#f4f6fb;--card:#fff;--tx:#14213d;--mut:#5b6785;--bd:#dde3f0;--pri:#2457e6;--ok:#16874b;--okb:#dff5e8;--bad:#c62f3d;--badb:#fde4e6;--nav:#0f1b3d}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){color-scheme:dark;--bg:#0b1020;--card:#151c33;--tx:#e8ecf8;--mut:#9aa6c6;--bd:#27304f;--pri:#6b93ff;--ok:#4cd08a;--okb:#12382a;--bad:#ff7b87;--badb:#3d1820;--nav:#0a1228}}
+:root[data-theme="dark"]{color-scheme:dark;--bg:#0b1020;--card:#151c33;--tx:#e8ecf8;--mut:#9aa6c6;--bd:#27304f;--pri:#6b93ff;--ok:#4cd08a;--okb:#12382a;--bad:#ff7b87;--badb:#3d1820;--nav:#0a1228}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--tx);font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif}
+header{background:var(--nav);position:sticky;top:env(safe-area-inset-top,0px);z-index:5}
+nav{display:flex;align-items:center;gap:4px;padding:10px 16px;overflow-x:auto;max-width:1200px;margin:auto}
+nav b{color:#fff;letter-spacing:1px;margin-right:12px;white-space:nowrap}
+nav a{color:#c9d3f2;text-decoration:none;padding:8px 12px;border-radius:8px;font-size:14px;white-space:nowrap}
+nav a.on,nav a:hover{background:#25376e;color:#fff}
+main{max-width:1200px;margin:auto;padding:20px 16px 60px}
+h1{font-size:clamp(24px,4vw,38px);margin:6px 0 10px}h2{margin:0 0 6px}
+.mut{color:var(--mut)}.card{background:var(--card);border:1px solid var(--bd);border-radius:14px;padding:18px;margin-bottom:16px}
+.hero{padding:32px 24px}.tag{display:inline-block;background:var(--okb);color:var(--ok);font-size:12px;font-weight:700;padding:4px 10px;border-radius:99px}
+.row{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px}
+.stat b{display:block;font-size:30px}.bar{height:8px;background:var(--bd);border-radius:9px;margin-top:8px;overflow:hidden}.bar i{display:block;height:100%;background:var(--pri)}
+button,.btn{font:inherit;font-size:13px;font-weight:600;border:1px solid var(--bd);background:var(--card);color:var(--tx);padding:8px 14px;border-radius:9px;cursor:pointer;text-decoration:none;display:inline-block}
+.pri{background:var(--pri);color:#fff;border-color:var(--pri)}
+.g{background:var(--okb);color:var(--ok);border-color:var(--ok)}.r{background:var(--badb);color:var(--bad);border-color:var(--bad)}
+.off{opacity:.45}
+.tw{overflow-x:auto}table{width:100%;border-collapse:collapse;font-size:14px}
+th,td{text-align:left;padding:9px 10px;border-bottom:1px solid var(--bd);white-space:nowrap}th{color:var(--mut);font-size:12px;text-transform:uppercase;position:sticky;top:0;background:var(--card)}
+td.act,th.act{text-align:right}.sc{max-height:62vh;overflow:auto}
+input,select{font:inherit;padding:9px 12px;border-radius:9px;border:1px solid var(--bd);background:var(--card);color:var(--tx)}
+.tb{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:12px}.tb .sp{flex:1}
+.pill{padding:3px 10px;border-radius:99px;font-size:12px;font-weight:700}
+.login{max-width:420px;margin:30px auto}.login label{display:block;margin:12px 0 4px;font-size:13px;color:var(--mut)}.login input{width:100%}
+.toast{position:fixed;bottom:calc(20px + env(safe-area-inset-bottom,0px));left:50%;transform:translateX(-50%);background:var(--nav);color:#fff;padding:10px 18px;border-radius:10px;font-size:14px;display:none;z-index:9}
+</style></head><body>
+<header><nav id="nav"><b>PAYROLL GUARD</b></nav></header>
+<main id="app"></main><div class="toast" id="toast"></div>
+<script>
+const F=["Arjun","Priya","Karthik","Divya","Suresh","Meena","Rahul","Anitha","Vijay","Lakshmi","Naveen","Kavya","Manoj","Swathi","Ramesh","Deepa","Sanjay","Nithya","Ganesh","Revathi"];
+const L=["Kumar","Raman","Subramanian","Iyer","Nair","Pillai","Reddy","Sharma","Krishnan","Selvam"];
+const D=["Finance","HR","IT","Operations","Sales","Support","Legal","Admin"];
+const ST=["Anna Nagar","T. Nagar","Adyar","Velachery","Tambaram","Porur","Guindy","Mylapore","OMR","Perambur"];
+const MN=["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+const E=[];for(let i=0;i<200;i++){const n=F[i%20]+" "+L[(i*3+Math.floor(i/20))%10];const y=2022+(i%5),m=(i*7)%12;
+E.push({i,id:"EMP"+String(1001+i),name:n,ph:"+91 9"+String(800000000+i*3719311).slice(0,9),
+addr:(10+i*3)+", "+ST[i%10]+" Main Rd, Chennai",dept:D[i%8],sal:25000+((i*1700)%60000),jy:y,jm:m,
+email:n.toLowerCase().replace(" ",".")+"@payrollguard.in",pw:"PG@"+(4100+i*7),
+ver:i%17!==5,prev:i%17!==0,cur:i%4!==3,closed:false,dec:null});}
+const NOW={y:2026,m:10};
+const $=s=>document.querySelector(s),app=$("#app");
+function toast(t){const e=$("#toast");e.textContent=t;e.style.display="block";clearTimeout(toast.t);toast.t=setTimeout(()=>e.style.display="none",1800)}
+const pages={home,employees,cases,reports,access,login,upload,previous,current};
+const tabs=[["home","Dashboard"],["employees","Employees"],["reports","Reports"],["access","Access Control"],["cases","Cases"],["login","Log In"]];
+$("#nav").innerHTML+=tabs.map(t=>`<a href="#${t[0]}" data-p="${t[0]}">${t[1]}</a>`).join("");
+function tbl(head,rows,filter){return `<div class="card"><div class="tb"><input id="q" placeholder="Search name or ID" oninput="filt()"><span class="sp"></span><span class="mut" id="cnt"></span></div><div class="tw sc"><table><thead><tr>${head}</tr></thead><tbody id="tb">${rows}</tbody></table></div></div>`}
+function filt(){const q=$("#q").value.toLowerCase();let n=0;document.querySelectorAll("#tb tr").forEach(r=>{const s=r.textContent.toLowerCase().includes(q);r.style.display=s?"":"none";if(s)n++});$("#cnt").textContent=n+" employees"}
+function after(){filt()}
+function home(){const v=E.filter(e=>e.ver).length;return `<div class="card hero"><span class="tag">CYBER SAFE</span><h1>Automated Payroll Verification and Employee Access Control</h1><p class="mut">Verify payroll data, detect ghost accounts and manage secure employee access with end-to-end compliance.</p><div class="row"><a class="btn pri" href="#upload">Upload Employee Details</a><a class="btn" href="#previous">Previous Month List</a><a class="btn" href="#current">Current Salary List</a></div></div>
+<div class="grid"><div class="card stat"><span class="mut">Total employees</span><b>200</b></div><div class="card stat"><span class="mut">Verified employees</span><b>${v}</b><div class="bar"><i style="width:${v/2}%"></i></div></div><div class="card stat"><span class="mut">Flagged ghost accounts</span><b>${200-v}</b></div><div class="card stat"><span class="mut">Salary received (current)</span><b>${E.filter(e=>e.cur).length} / 200</b><div class="bar"><i style="width:75%"></i></div></div></div>`}
+function employees(){return `<h2>Employees</h2><p class="mut">Default employee database (200 records).</p>`+tbl("<th>Employee ID</th><th>Name</th><th>Department</th><th>Phone</th><th>Address</th>",E.map(e=>`<tr><td>${e.id}</td><td>${e.name}</td><td>${e.dept}</td><td>${e.ph}</td><td>${e.addr}</td></tr>`).join(""))}
+function crow(e){return `<tr><td>${e.id}</td><td>${e.name}</td><td><span class="pill ${e.ver?"g":"r"}">${e.ver?"Verified":"Not verified"}</span></td><td class="act">${e.ver?'<span class="mut">—</span>':e.closed?'<span class="pill r">Account closed</span>':`<button class="r" onclick="closeAcc(${e.i})">Confirm account closure</button>`}</td></tr>`}
+function closeAcc(i){E[i].closed=true;toast(E[i].name+" – account closure confirmed");$("#tb").innerHTML=E.map(crow).join("");filt()}
+function cases(){const nv=E.filter(e=>!e.ver).length;const h=`<h2>Cases</h2><p class="mut">Verification of the 200 employees: ${200-nv} verified, ${nv} not verified.</p>`+tbl("<th>ID</th><th>Employee name</th><th>Status</th><th class='act'>Account closing</th>",E.map(crow).join(""));return h}
+function rrow(e){return `<tr><td>${e.id}</td><td>${e.name}</td><td>${e.ph}</td><td class="act"><button class="${e.dec==="c"?"g":"off"}" onclick="dec(${e.i},'c')">Confirmed</button> <button class="${e.dec==="b"?"r":"off"}" onclick="dec(${e.i},'b')">Blocked</button></td></tr>`}
+function dec(i,d){E[i].dec=d;const r=$("#tb").children;[...r].forEach(x=>{if(x.firstChild.textContent===E[i].id)x.outerHTML=rrow(E[i])});toast(E[i].name+" marked "+(d==="c"?"Confirmed":"Blocked"))}
+function reports(){return `<h2>Reports</h2><p class="mut">Mark each employee as Confirmed or Blocked.</p>`+tbl("<th>ID</th><th>Name</th><th>Phone</th><th class='act'>Decision</th>",E.map(rrow).join(""))}
+function access(){const c=E.filter(e=>e.dec==="c").length,b=E.filter(e=>e.dec==="b").length;return `<h2>Access Control</h2><div class="grid"><div class="card stat"><span class="mut">Confirmed</span><b>${c}</b></div><div class="card stat"><span class="mut">Blocked</span><b>${b}</b></div><div class="card stat"><span class="mut">Pending</span><b>${200-c-b}</b></div></div><a class="btn pri" href="#reports">Manage in Reports</a>`}
+function login(){return `<div class="card login"><h2>Log In</h2><p class="mut">Employee email and company password.</p><label>Employee email ID</label><input id="em" value="${E[0].email}"><label>Company password</label><input id="pw" value="${E[0].pw}"><div class="row"><button class="pri" onclick="toast('Logged in as '+$('#em').value)">Log In</button></div><label>Quick select employee</label><select onchange="const e=E[this.value];$('#em').value=e.email;$('#pw').value=e.pw">${E.map(e=>`<option value="${e.i}">${e.id} – ${e.name}</option>`).join("")}</select></div>`}
+function upload(){return `<h2>Upload Employee Details</h2><p class="mut">Basic details and salary month history from joining date until now.</p><div class="card tb"><input type="file" onchange="toast('File received – showing default database')"><select id="sel" onchange="hist()">${E.map(e=>`<option value="${e.i}">${e.id} – ${e.name}</option>`).join("")}</select></div><div id="hist"></div>`}
+function hist(){const e=E[$("#sel").value];let rows="",y=e.jy,m=e.jm;while(y<NOW.y||(y===NOW.y&&m<=NOW.m)){rows+=`<tr><td>${MN[m]} ${y}</td><td>₹${e.sal.toLocaleString("en-IN")}</td><td><span class="pill g">Paid</span></td></tr>`;if(++m>11){m=0;y++}}
+$("#hist").innerHTML=`<div class="card"><b>${e.name}</b> · ${e.id} · Salary ₹${e.sal.toLocaleString("en-IN")}/month · Joined ${MN[e.jm]} ${e.jy}</div><div class="card tw sc"><table><thead><tr><th>Month</th><th>Salary</th><th>Status</th></tr></thead><tbody>${rows}</tbody></table></div>`}
+function sal(t,k,lab){const n=E.filter(e=>e[k]).length;return `<h2>${t}</h2><p class="mut">${n} of 200 employees received salary.</p>`+tbl("<th>ID</th><th>Name</th><th>Phone</th><th class='act'>Salary</th>",E.map(e=>`<tr><td>${e.id}</td><td>${e.name}</td><td>${e.ph}</td><td class="act"><span class="pill ${e[k]?"g":"r"}">${e[k]?"Received":"Not received"}</span></td></tr>`).join(""))}
+function previous(){return sal("Previous Month List (Oct 2026)","prev")}
+function current(){return sal("Current Salary List (Nov 2026)","cur")}
+function route(){const p=(location.hash||"#home").slice(1);const k=pages[p]?p:"home";app.dataset.p=k;const h=pages[k]();if(h!==null)app.innerHTML=h;
+document.querySelectorAll("nav a").forEach(a=>a.classList.toggle("on",a.dataset.p===k));
+if($("#tb"))after();if(k==="upload")hist();window.scrollTo(0,0)}
+addEventListener("hashchange",route);route();
+</script></body></html>
